@@ -26,6 +26,11 @@ export class ContactController {
     return this.contactService.findOne(id);
   }
 
+  @Get()
+  async findAll(): Promise<Contact[]> {
+    return this.contactService.findAll();
+  }
+
   @Put(':id')
   async update(
     @Param('id') id: string,

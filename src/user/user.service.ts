@@ -19,6 +19,12 @@ export class UserService {
     return await createdUser.save();
   }
 
+  async update(id: string, createUserDto: CreateUserDto): Promise<User | null> {
+    return this.userModel.findByIdAndUpdate(id, createUserDto, {
+      new: true,
+    });
+  }
+
   async login(loginDto: LoginDto): Promise<User> {
     const user = await this.userModel.findOne({
       email: loginDto.email,
@@ -40,5 +46,19 @@ export class UserService {
 
   async findOne(id: string): Promise<User | null> {
     return this.userModel.findById(id);
+  }
+
+  async findAll(): Promise<User[]> {
+    return this.userModel.find().exec();
+  }
+
+  async findByName(name: string): Promise<User[]> {
+    return this.userModel
+      .find({ name: { $regex: name, $options: 'i' } })
+      .exec();
+  }
+
+  async remove(id: string): Promise<User | null> {
+    return await this.userModel.findOneAndDelete({ _id: id });
   }
 }

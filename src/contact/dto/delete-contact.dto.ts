@@ -1,4 +1,4 @@
 /* eslint-disable prettier/prettier */
-export class UpdateContactDto {
+export class DeleteContactDto {
   id: string;
 }

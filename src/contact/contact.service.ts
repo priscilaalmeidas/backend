@@ -20,6 +20,10 @@ export class ContactService {
     return this.contactModel.findById(id);
   }
 
+  async findAll(): Promise<Contact[]> {
+    return this.contactModel.find().exec();
+  }
+
   async update(
     id: string,
     createContactDto: CreateContactDto,
