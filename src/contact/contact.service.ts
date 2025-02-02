@@ -4,6 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Contact } from './contact.schema';
 import { CreateContactDto } from './dto/create-contact.dto';
+import { UpdateContactDto } from './dto/update-contact.dto';
 
 @Injectable()
 export class ContactService {
@@ -26,14 +27,19 @@ export class ContactService {
 
   async update(
     id: string,
-    createContactDto: CreateContactDto,
+    updateContactDto: UpdateContactDto,
   ): Promise<Contact | null> {
-    return this.contactModel.findByIdAndUpdate(id, createContactDto, {
+    return this.contactModel.findByIdAndUpdate(id, updateContactDto, {
       new: true,
     });
   }
 
   async remove(id: string): Promise<Contact | null> {
     return await this.contactModel.findOneAndDelete({ _id: id });
+  }
+
+  //To create lots of contacts through postman because I'm not crazy hehe
+  async createMany(contacts: CreateContactDto[]): Promise<Contact[]> {
+    return this.contactModel.insertMany(contacts);
   }
 }

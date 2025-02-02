@@ -37,7 +37,7 @@ export class UserService {
   }
 
   responseToken(user: User): { access_token: string; user: User } {
-    const payload = { email: user.email, sub: user.id };
+    const payload = { email: user.email, sub: user._id };
     return {
       access_token: this.jwtService.sign(payload),
       user: user,

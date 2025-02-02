@@ -15,6 +15,11 @@ export class TicketController {
     return this.ticketService.create(createTicketDto);
   }
 
+  @Post('batch')
+  async createMany(@Body() createTicket: CreateTicketDto[]): Promise<Ticket[]> {
+    return this.ticketService.createMany(createTicket);
+  }
+
   @Get()
   async findAll(): Promise<Ticket[]> {
     return this.ticketService.findAll();
@@ -38,15 +43,7 @@ export class TicketController {
     return this.ticketService.findTicketsByAgentAndStatus(agentId, status);
   }
 
-  @Put(':id/status')
-  async updateStatus(
-    @Param('id') id: string,
-    @Body() updateTicketDto: UpdateTicketDto,
-  ): Promise<Ticket> {
-    return this.ticketService.updateStatus(id, updateTicketDto);
-  }
-
-  @Put(':id/contact')
+  @Put(':id')
   async update(
     @Param('id') id: string,
     @Body() updateTicketDto: UpdateTicketDto,

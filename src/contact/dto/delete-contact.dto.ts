@@ -1,4 +1,4 @@
 /* eslint-disable prettier/prettier */
 export class DeleteContactDto {
-  id: string;
+  _id: string;
 }
