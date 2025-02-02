@@ -1,14 +1,18 @@
 /* eslint-disable prettier/prettier */
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ExpressAdapter } from '@nestjs/platform-express';
-import * as express from 'express';
+import { CorsOptions } from 'cors';
 
 async function bootstrap() {
-  const server = express();
-  const app = await NestFactory.create(AppModule, new ExpressAdapter(server));
-  app.enableCors();
-  await app.init();
-  return server;
+  const app = await NestFactory.create(AppModule);
+
+  const corsOptions: CorsOptions = {
+    origin: ['https://frontend-five-lime-25.vercel.app/'],
+    credentials: true,
+  };
+
+  app.enableCors(corsOptions);
+
+  await app.listen(3000);
 }
-export const handler = bootstrap();
+bootstrap();
