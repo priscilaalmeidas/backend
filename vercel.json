@@ -2,8 +2,17 @@
   "version": 2,
   "builds": [
     {
-      "src": "backend/index.js",
-      "use": "@vercel/node"
+      "src": "backend/main.ts",
+      "use": "@vercel/node",
+      "config": {
+        "maxLambdaSize": "50mb"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "backend/main.ts"
     }
   ]
 }
