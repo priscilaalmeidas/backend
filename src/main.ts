@@ -1,14 +1,14 @@
 /* eslint-disable prettier/prettier */
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { join } from 'path';
-import { NestExpressApplication } from '@nestjs/platform-express';
+import { ExpressAdapter } from '@nestjs/platform-express';
+import * as express from 'express';
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(AppModule);
-  app.useStaticAssets(join(__dirname, '..', 'frontend'));
-  app.setBaseViewsDir(join(__dirname, '..', 'frontend'));
-  app.enableCors(); // Enable CORS to allow requests from the frontend
-  await app.listen(3000);
+  const server = express();
+  const app = await NestFactory.create(AppModule, new ExpressAdapter(server));
+  app.enableCors();
+  await app.init();
+  return server;
 }
-bootstrap();
+export const handler = bootstrap();
