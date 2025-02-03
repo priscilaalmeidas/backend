@@ -26,13 +26,16 @@ export class UserService {
   }
 
   async login(loginDto: LoginDto): Promise<User> {
-    const user = await this.userModel.findOne({
-      email: loginDto.email,
-      password: loginDto.password,
-    });
-    if (user) {
+    const { email, password } = loginDto;
+    const user = await this.userModel.findOne({ email });
+
+    if (!user) {
+      throw new UnauthorizedException('Credenciais inválidas');
+    }
+    if (password === user.password) {
       return user;
     }
+
     throw new UnauthorizedException('Credenciais inválidas');
   }
 
